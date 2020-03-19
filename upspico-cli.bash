@@ -1,1 +1,3 @@
 #!/bin/bash
+
+i2cget -y 1 0x69 0x02 w
