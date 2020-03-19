@@ -2,4 +2,4 @@
 
 # Ubuntu-mate notes
 - Shells
--- /bin/bash
+- - /bin/bash
