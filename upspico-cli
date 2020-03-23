@@ -1,0 +1,39 @@
+#!/bin/bash
+set="$1"
+bus="1"
+
+if [ -z "$set" ]; then
+	printf "You need to specify a setting you want to see.\n"
+	exit 1
+else
+	if [ "$set" == "mode" ]; then
+		modebyte="$(i2cget -y $bus 0x69 0x00 b)"
+		if [ "$modebyte" == "0x01" ]; then
+			printf "CABLE\n"
+		elif [ "$modebyte" == "0x02" ]; then
+			printf "BATTERY\n"
+		fi
+	elif [ "$set" == "batlevel" ]; then
+		bat="$(i2cget -y $bus 0x69 0x08 w | sed "s~^0x~~")"
+		batbcd="$(i2cget -y $bus 0x69 0x08 w)"
+		#printf "BCD:%s\n%d\n" "$batbcd" "$((16#$bat)))"
+		printf "BCD:%s\nmV:%d\n" "$batbcd" "$((16#$bat))"
+	elif [ "$set" == "charge" ]; then
+		icstat="$(i2cget -y $bus 0x69 0x20 b)"
+		if [ "$icstat" == "0x00" ]; then
+			printf "Charger IC is OFF and battery is not charged. NOTE:The battery may be fully charged.\n"
+		elif [ "$icstat" == "0x01" ]; then
+			printf "Charger IC is ON and battery is charged.\n"
+		fi
+	elif [ "$set" == "running" ]; then
+		if [ "$(i2cget -y $bus 0x69 0x22 w)" != "$(i2cget -y $bus 0x69 0x22 w)" ]; then
+			printf "UPS Pico is running.\n"
+		else
+			printf "UPS Pico is not running.\n"
+		fi
+	elif [ "$set" == "firmware" ]; then
+		printf "Firmware version:%s\n" "$(i2cget -y $bus 0x69 0x26)"
+	else
+		printf "\"%s\" is not a valid setting.\n" "$set"
+	fi
+fi

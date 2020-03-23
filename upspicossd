@@ -1,0 +1,60 @@
+#!/bin/bash -xv
+cmd="$1"
+pid="$$"
+pidfile="/run/$(echo $0 | awk -F/ '{printf $NF}').pid"
+bus="1"
+
+function MAIN {
+	if [ -z "$cmd" ]; then
+		printf "Please specify a command.\n"
+		exit 1
+	elif [ "$cmd" == "start" ]; then
+		START
+	elif [ "$cmd" == "stop" ]; then
+		STOP
+	elif [ "$cmd" == "restart" ]; then
+		RESTART
+	else
+		printf "\"%s\" is not a valid command.\n" "$cmd"
+		exit 1
+	fi
+}
+
+function START {
+	logger --id=$pid "$0 is starting"
+	echo $pid > $pidfile
+	WATCHMODE
+}
+
+function STOP {
+	logger --id=$pid "$0 is stoping"
+	runpid="$(cat $pidfile)"
+	rm -f $pidfile
+	kill $runpid
+}
+
+function RESTART {
+	logger --id=$pid "$0 is restarting"
+	STOP
+	START
+}
+
+function WATCHMODE {
+	modebyte="$(i2cget -y $bus 0x69 0x00 b)"
+	if [ "$modebyte" == "0x01" ]; then
+		mode="cable"
+	elif [ "$modebyte" == "0x02" ]; then
+		mode="battery"
+	fi
+
+	if [ "$mode" == "battery" ]; then
+		logger --id=$pid "UPS Pico mode changed to battery"
+		logger --id=$pid "Shutting down now"
+		rm -f $pidfile
+		shutdown now
+	else
+		WATCHMODE
+	fi
+}
+
+MAIN
