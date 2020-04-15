@@ -1,0 +1,10 @@
+[Unit]
+Description=Start Waveshare Hat
+After=picofssd.service
+
+[Service]
+Type=simple
+ExecStart=i/home/binary/GIT/Raspbery_PI_Scripts/Waveshare-GSM-GPRS-GNSS_HAT/waveshare_init.py
+
+[Install]
+WantedBy=multi-user.target
