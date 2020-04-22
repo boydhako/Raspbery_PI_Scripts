@@ -1,0 +1,11 @@
+[Unit]
+Description=Script to configure UPS PICO after reboot
+After=upspicossd.service
+
+[Service]
+Type=simple
+ExecStart=/home/binary/GIT/Raspbery_PI_Scripts/UPS-PICO/upspicocfg.bash
+PIDFile=/run/upspicocfg.pid
+
+[Install]
+WantedBy=default.target

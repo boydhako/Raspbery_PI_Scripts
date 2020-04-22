@@ -1,0 +1,11 @@
+[Unit]
+Description=Script to turn on orange led to notify that UPS PICO is running
+After=upspicossd.service
+
+[Service]
+Type=simple
+ExecStart=/home/binary/GIT/Raspbery_PI_Scripts/UPS-PICO/upspico-running.bash
+PIDFile=/run/upspicorunning.pid
+
+[Install]
+WantedBy=default.target
