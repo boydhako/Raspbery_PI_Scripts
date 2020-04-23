@@ -4,7 +4,7 @@ After=upspicossd.service
 
 [Service]
 Type=simple
-ExecStart=/home/binary/GIT/Raspbery_PI_Scripts/UPS-PICO/upspicocfg.bash
+ExecStart=/home/binary/GIT/Raspbery_PI_Scripts/UPS-PICO/upspicocfg.bash start
 PIDFile=/run/upspicocfg.pid
 
 [Install]

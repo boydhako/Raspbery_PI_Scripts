@@ -1,5 +1,8 @@
 #!/bin/bash 
+cmd="$1"
 setthres="3.6"
+pid="$$"
+pidfile="/run/upspicocfg.pid"
 
 function GLEDON {
 	i2cset -y 1 0x6b 0x0A 0x01
@@ -72,7 +75,8 @@ function GETBATTTHRES {
 			;;
 	esac
 }
-function CFGUPSPICO {
+function RUNCFG {
+	echo $pid > $pidfile
 	GETBATTTHRES
 	if [ "$batthres" != "$setthres" ]; then
 		GLEDOFF
@@ -80,7 +84,19 @@ function CFGUPSPICO {
 	else
 		GLEDON
 	fi
-	sleep 30
-	CFGUPSPICO
+	sleep 3
+	GLEDOFF
+	sleep 3
+	RUNCFG
+}
+function CFGUPSPICO {
+	if [ "$cmd" == "start" ]; then
+		RUNCFG
+	elif [ "$cmd" == "stop" ]; then
+		GLEDOFF
+		kill $(cat $PIDFile)
+	else
+		RUNCFG
+	fi
 }
 CFGUPSPICO
