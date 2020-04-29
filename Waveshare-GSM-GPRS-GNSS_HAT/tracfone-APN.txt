@@ -1,0 +1,8 @@
+Field	Settings
+NAME	TRACFONE
+APN	RESELLER
+AUTH_TYPE	None
+MMSC	http://mmsc.mobile.att.net
+MMS PROXY	proxy.mobile.att.net
+MMS PORT	80
+MMS_APN_TYPE	default,mms,supl

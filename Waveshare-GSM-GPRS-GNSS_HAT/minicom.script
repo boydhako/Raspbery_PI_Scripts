@@ -1,2 +1,35 @@
+verbose on
+send "AT+CGNSPWR=1"
+
+send "AT+CSTT=\"RESELLER\""
+
+send "AT+CSGS=2"
+send "AT+CGATT=1"
+sleep 5
+
+send "AT+CGNSSEQ=\"RMC\""
+
+
+send "AT+SAPBR=3,1,\"CONTYPE\",\"GPRS\""
+send "AT+SAPBR=3,1,\"APN\",\"3GNET\""
+send "AT+SAPBR=1,1"
+send "AT+SAPBR=2,1"
+send "AT+CNTPCID=1"
+send "AT+CNTP"
+send "AT+CCLK?"
+send "AT+CLBS=1,1"
+send "AT+FTPSERV=\"116.247.119.165\""
+send "AT+FTPUN=\"customer\""
+send "AT+FTPPW=\"111111\""
+send "AT+FTPGETNAME=\"MTK3.EPO\""
+send "AT+FTPGETPATH=\"/\""
+send "AT+FTPEXTGET=1"
+send "AT+FTPEXTGET=4,\"epo\""
+send "AT+FSLS=C:\\User\\"
+send "AT+CGNSCHK=3,1"
+send "AT+CGNSPWR=1"
+send "AT+CGNSAID=31,1,1"
 send "AT+CGNSINF"
-exit
+
+send "AT+CGNSURC=2"
+

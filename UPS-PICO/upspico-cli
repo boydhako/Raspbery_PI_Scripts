@@ -23,7 +23,7 @@ else
 		if [ "$icstat" == "0x00" ]; then
 			printf "Charger IC is OFF and battery is not charged. NOTE:The battery may be fully charged.\n"
 		elif [ "$icstat" == "0x01" ]; then
-			printf "Charger IC is ON and battery is charged.\n"
+			printf "Charger IC is ON and battery is charging.\n"
 		fi
 	elif [ "$set" == "running" ]; then
 		if [ "$(i2cget -y $bus 0x69 0x22 w)" != "$(i2cget -y $bus 0x69 0x22 w)" ]; then
