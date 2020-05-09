@@ -1,1 +1,1 @@
-import V25ter
+from .V25ter import V25ter
