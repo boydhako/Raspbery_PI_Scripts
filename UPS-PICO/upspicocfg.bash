@@ -75,6 +75,11 @@ function GETBATTTHRES {
 			;;
 	esac
 }
+function FANCFG {
+		i2cset -y 1 0x6b 0x13 100
+		i2cset -y 1 0x6b 0x12 0x01
+		i2cset -y 1 0x6b 0x11 0x01
+}
 function RUNCFG {
 	echo $pid > $pidfile
 	GETBATTTHRES
